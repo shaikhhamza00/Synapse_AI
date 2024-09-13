@@ -92,10 +92,7 @@ fun ChatScreen(
                     colors = ButtonDefaults.run {
                         buttonColors(
                             containerColor = Color(colorResource(id = R.color.teal_green).value)) },
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = 16.dp) // Adjust padding as needed
-                        .fillMaxWidth(0.8f)
+                    modifier = Modifier.fillMaxWidth(0.8f)
                 ) {
                     Text(text = "Start Chat", color = Color.White, fontSize = 18.sp)
                 }
