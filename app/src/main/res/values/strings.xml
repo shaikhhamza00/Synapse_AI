@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Synapse AI</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_chat_screen">ChatScreen</string>
+    <string name="title_activity_bottom_nav_bar">BottomNavBar</string>
+    <string name="title_activity_custom_top_bar">CustomTopBar</string>
 </resources>
