@@ -18,6 +18,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        //Gemini
+        buildConfigField("String", "API_KEY", "\"AIzaSyCTLE6_1UHkShsBQbfg2x_ySuyIzjMqPEQ\"")
     }
 
     buildTypes {
@@ -38,6 +40,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -71,4 +74,9 @@ dependencies {
     implementation("androidx.compose.ui:ui:1.7.1")
     implementation("androidx.compose.material:material:1.7.1")
     implementation("androidx.compose.ui:ui-tooling-preview:1.7.1")
+    implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.5")
+    implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    implementation("com.google.ai.client.generativeai:generativeai:0.7.0")
 }
