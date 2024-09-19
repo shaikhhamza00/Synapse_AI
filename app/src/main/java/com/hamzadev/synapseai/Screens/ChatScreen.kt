@@ -10,11 +10,14 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +25,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -37,12 +45,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -63,32 +74,50 @@ import com.hamzadev.synapseai.ViewModels.ChatViewModel
 @Composable
 fun ChatScreen(
     viewModel: ChatViewModel = viewModel(),
-    bottomBarViewModel: BottomBarViewModel = viewModel() // ViewModel for Bottom Bar
+    bottomBarViewModel: BottomBarViewModel = viewModel()
 ) {
-    val isChatStarted by viewModel.isChatStarted.observeAsState(false) // Observe the chat start state
+    // Observe the selected tab index
+    val selectedTab by bottomBarViewModel.selectedTab.observeAsState(0)
 
     Scaffold(
         topBar = {
-            CustomTopBar(viewModel = bottomBarViewModel) // Add the custom top bar with ViewModel
+            CustomTopBar(viewModel = bottomBarViewModel)
         },
         bottomBar = {
-            BottomNavBar(viewModel = bottomBarViewModel) // Pass the ViewModel here
+            BottomNavBar(viewModel = bottomBarViewModel)
         },
-        content = { paddingValues -> // Add paddingValues to respect top/bottom bars
+        content = { paddingValues ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                if (isChatStarted) {
-                    ChatContentAfterStart(viewModel = viewModel) // Show chat UI when chat has started
-                } else {
-                    InitialChatScreenContent(viewModel) // Show initial welcome screen
+                when (selectedTab) {
+                    0 -> {
+                        if (viewModel.isChatStarted) {
+                            ChatContentAfterStart(viewModel)
+                        } else {
+                            InitialChatScreenContent(viewModel)
+                        }
+                    }
+                    1 -> {
+                        // Replace with your AI Assistants screen content
+//                        AIAssistantsScreen()
+                    }
+                    2 -> {
+                        // Navigate to HistoryScreen
+                        HistoryScreen(viewModel = bottomBarViewModel)
+                    }
+                    3 -> {
+                        // Replace with your Settings screen content
+//                        SettingsScreen()
+                    }
                 }
             }
         }
     )
 }
+
 
 
 @Composable
@@ -143,7 +172,7 @@ fun InitialChatUI(viewModel: ChatViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -167,13 +196,13 @@ fun InitialChatUI(viewModel: ChatViewModel) {
 
         Button(
             onClick = { /* Handle option click */ },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth(0.9f)
         ) {
             Text(
                 text = "Answer all your questions.\n(Just ask me anything you like!)",
-                color = Color.White,
+                color = Color.DarkGray,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(vertical = 12.dp)
             )
@@ -183,13 +212,13 @@ fun InitialChatUI(viewModel: ChatViewModel) {
 
         Button(
             onClick = { /* Handle option click */ },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth(0.9f)
         ) {
             Text(
                 text = "Generate all the text you want.\n(essays, articles, reports, stories, & more)",
-                color = Color.White,
+                color = Color.DarkGray,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(vertical = 12.dp)
             )
@@ -199,13 +228,13 @@ fun InitialChatUI(viewModel: ChatViewModel) {
 
         Button(
             onClick = { /* Handle option click */ },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth(0.9f)
         ) {
             Text(
                 text = "Conversational AI\n(I can talk to you like a natural human)",
-                color = Color.White,
+                color = Color.DarkGray,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(vertical = 12.dp)
             )
@@ -224,96 +253,107 @@ fun InitialChatUI(viewModel: ChatViewModel) {
 
 @Composable
 fun ChatContentAfterStart(viewModel: ChatViewModel) {
-    val chatMessages by viewModel.chatMessages.observeAsState(listOf())
+    val chatMessages by viewModel.chatMessages.observeAsState(emptyList())
     val chatInput by remember { mutableStateOf(viewModel.chatInput) }
     val showInitialUI = chatMessages.isEmpty() && chatInput.isBlank()
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        // Scrollable chat content
-        Column(
+    // Create LazyListState for managing scroll position
+    val listState = rememberLazyListState()
+
+    // Use LazyColumn to manage scrolling more efficiently
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            state = listState,
             modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState()) // Make chat content scrollable
-                .padding(16.dp)
-                .align(Alignment.TopStart), // Ensure the chat content aligns at the top
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(16.dp),
+            contentPadding = PaddingValues(bottom = 80.dp) // Add padding to prevent overlap with input field
         ) {
             if (showInitialUI) {
-                InitialChatUI(viewModel)
+                item {
+                    InitialChatUI(viewModel)
+                }
             }
 
-            // Show chat messages
-            if (chatMessages.isNotEmpty()) {
-                for ((sender, message) in chatMessages) {
-                    Text(
-                        text = "$sender: $message",
+            items(chatMessages) { (sender, message) ->
+                val isUser = sender == "User"
+                val backgroundColor = if (isUser) Color(0xFFDCF8C6) else Color(0xFFEAEAEA)
+                val textColor = if (isUser) Color.Black else Color.DarkGray
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start
+                ) {
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .align(if (sender == "User") Alignment.End else Alignment.Start),
-                        fontSize = 16.sp,
-                        color = if (sender == "User") Color.Blue else Color.Green,
-                        fontWeight = if (sender == "User") FontWeight.Bold else FontWeight.Normal,
-                        textAlign = if (sender == "User") TextAlign.End else TextAlign.Start
-                    )
+                            .background(
+                                color = backgroundColor,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(12.dp)
+                            .widthIn(max = 250.dp)
+                    ) {
+                        Text(
+                            text = message,
+                            fontSize = 16.sp,
+                            color = textColor,
+                            textAlign = TextAlign.Start
+                        )
+                    }
                 }
             }
         }
 
-        // Fixed position for the chat input field at the bottom
+        // Automatically scroll to the start of the latest message when chatMessages change
+        LaunchedEffect(chatMessages) {
+            val itemCount = chatMessages.size
+            if (itemCount > 0) {
+                // Scroll to the end of the latest message
+                listState.animateScrollToItem(itemCount - 1)
+            }
+        }
+
         ChatInputField(
             viewModel = viewModel,
             isChatInputEmpty = chatInput.isBlank(),
             modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.background)
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter) // Align the input field to the bottom
-                .padding(8.dp) // Add some padding around the input field
+                .padding(8.dp)
+                .align(Alignment.BottomCenter) // Align ChatInputField to the bottom
         )
     }
 }
 
 
 
+
+
+
+
+
+
+
+
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatInputField(viewModel: ChatViewModel, isChatInputEmpty: Boolean, modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-    val imagePickerLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-            viewModel.onImageSelected(it.toString()) // Convert URI to String and update ViewModel
-        }
-    }
-
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Load and show the selected image using Coil
-        viewModel.selectedImageUri?.let { imageUri ->
-            Image(
-                painter = rememberAsyncImagePainter(model = imageUri),
-                contentDescription = "Selected Image",
-                modifier = Modifier.size(56.dp)
-            )
-        }
-
         TextField(
             value = viewModel.chatInput,
             onValueChange = { viewModel.onChatInputChanged(it) },
             modifier = Modifier
                 .weight(1f)
                 .height(56.dp),
-            placeholder = { Text(text = "Ask me anything...", color = Color.LightGray) },
-            leadingIcon = {
-                IconButton(onClick = { imagePickerLauncher.launch("image/*") }) {
-                    Icon(painter = painterResource(id = R.drawable.picture_icon), contentDescription = "Select Image", tint = colorResource(
-                        id = R.color.teal_green
-                    ))
-                }
-            },
-            colors = TextFieldDefaults.textFieldColors(containerColor = Color.Gray),
+            placeholder = { Text(text = "Ask me anything...", color = Color.Gray) },
+            colors = TextFieldDefaults.textFieldColors(containerColor = Color.LightGray),
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Send),
             keyboardActions = KeyboardActions(onSend = { viewModel.sendMessage() }),
         )
@@ -322,11 +362,7 @@ fun ChatInputField(viewModel: ChatViewModel, isChatInputEmpty: Boolean, modifier
 
         IconButton(
             onClick = {
-                if (isChatInputEmpty && viewModel.selectedImageUri == null) {
-                    // Handle mic input
-                } else {
-                    viewModel.sendMessage()
-                }
+                viewModel.sendMessage()
             },
             modifier = Modifier
                 .size(56.dp)
@@ -335,9 +371,13 @@ fun ChatInputField(viewModel: ChatViewModel, isChatInputEmpty: Boolean, modifier
                     shape = RoundedCornerShape(16.dp)
                 )
         ) {
-            Icon(painter = painterResource(id = if (isChatInputEmpty) R.drawable.mic_icon else R.drawable.send_icon),
-                contentDescription = if (isChatInputEmpty) "Voice Input" else "Send Message",
-                tint = Color.White)
+            Icon(
+                painter = painterResource(
+                    R.drawable.send_icon
+                ),
+                contentDescription = "Send Butotn",
+                tint = Color.White
+            )
         }
     }
 }

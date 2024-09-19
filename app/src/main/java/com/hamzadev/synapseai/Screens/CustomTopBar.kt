@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -52,6 +53,7 @@ fun CustomTopBar(viewModel: BottomBarViewModel) {
                 painter = painterResource(id = R.drawable.synapse_logo),
                 contentDescription = "Logo",
                 modifier = Modifier
+                    .background(Color.Red)
                     .size(40.dp)
                     .padding(end = 16.dp),
                 tint = colorResource(id = R.color.teal_green) // Keep the logo with the same color
