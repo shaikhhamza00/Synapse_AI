@@ -5,11 +5,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,83 +26,99 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.hamzadev.synapseai.R
 import com.hamzadev.synapseai.Screens.ui.theme.SynapseAITheme
 import com.hamzadev.synapseai.ViewModels.BottomBarViewModel
+import com.hamzadev.synapseai.ViewModels.HistoryViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
-fun HistoryScreen(viewModel: BottomBarViewModel = viewModel()) {
-    // Update the top bar title using the view model
-    LaunchedEffect(Unit) {
-        viewModel.onTabSelected(2) // Update the top bar title when this screen is loaded
-    }
+fun HistoryScreen(viewModel: HistoryViewModel = viewModel()) {
+    var showHistory by remember { mutableStateOf(true) }
+    var selectedConversationId by remember { mutableStateOf("") }
+    val chatMessages by viewModel.chatMessages.observeAsState(emptyList())
 
-    Scaffold(
-        content = { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(horizontal = 16.dp)
-            ) {
-                Text(
-                    text = "Chat History",
-                    style = MaterialTheme.typography.h5,
-                    modifier = Modifier.padding(bottom = 8.dp)
+    if (showHistory) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            items(chatMessages) { message ->
+                HistoryItem(
+                    content = message.content,
+                    timestamp = formatTimestamp(message.timestamp), // Use formatted timestamp
+                    onClick = {
+                        selectedConversationId = message.conversationId
+                        showHistory = false
+                    }
                 )
-
-                // Placeholder content for history
-                HistoryList()
             }
         }
-    )
-}
-
-@Composable
-fun HistoryList() {
-    // Placeholder data for history
-    val historyItems = listOf(
-        "Conversation with Assistant 1 - 12:00 PM",
-        "Conversation with Assistant 2 - 10:30 AM",
-        "Conversation with Assistant 3 - Yesterday"
-    )
-
-    LazyColumn {
-        items(historyItems) { item ->
-            HistoryItem(item)
-        }
+    } else {
+        ChatDetailScreen(conversationId = selectedConversationId)
     }
 }
 
 @Composable
-fun HistoryItem(text: String) {
+fun HistoryItem(content: String, timestamp: String, onClick: () -> Unit) {
     Card(
+        colors = CardDefaults.cardColors(
+            containerColor = Color.LightGray
+        ),
         shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.elevatedCardElevation(4.dp), // Using elevatedCardElevation for Material3
+        elevation = CardDefaults.elevatedCardElevation(4.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
+            .clickable { onClick() }
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.chat_history), // Replace with your history icon
-                contentDescription = null,
-                tint = MaterialTheme.colors.primary,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.chat_history), // Replace with your history icon
+                    contentDescription = null,
+                    tint = MaterialTheme.colors.onBackground,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = content,
+                    style = MaterialTheme.typography.body1,
+                    color = MaterialTheme.colors.onSurface
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = text,
-                style = MaterialTheme.typography.body1
+                text = timestamp,
+                style = MaterialTheme.typography.caption.copy(color = Color.Gray)
             )
         }
     }
+}
+
+/**
+ * Utility function to format the timestamp.
+ */
+fun formatTimestamp(timestamp: Long): String {
+    val date = Date(timestamp)
+    val format = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()) // Customize the date pattern as needed
+    return format.format(date)
 }

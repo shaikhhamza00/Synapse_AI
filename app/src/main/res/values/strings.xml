@@ -5,4 +5,5 @@
     <string name="title_activity_bottom_nav_bar">BottomNavBar</string>
     <string name="title_activity_custom_top_bar">CustomTopBar</string>
     <string name="title_activity_history_screen">HistoryScreen</string>
+    <string name="title_activity_chat_detail_screen">ChatDetailScreen</string>
 </resources>

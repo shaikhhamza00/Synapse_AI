@@ -70,10 +70,12 @@ import com.hamzadev.synapseai.R
 import com.hamzadev.synapseai.Screens.ui.theme.SynapseAITheme
 import com.hamzadev.synapseai.ViewModels.BottomBarViewModel
 import com.hamzadev.synapseai.ViewModels.ChatViewModel
+import com.hamzadev.synapseai.ViewModels.HistoryViewModel
 
 @Composable
 fun ChatScreen(
     viewModel: ChatViewModel = viewModel(),
+    historyViewModel: HistoryViewModel = viewModel(),
     bottomBarViewModel: BottomBarViewModel = viewModel()
 ) {
     // Observe the selected tab index
@@ -106,7 +108,7 @@ fun ChatScreen(
                     }
                     2 -> {
                         // Navigate to HistoryScreen
-                        HistoryScreen(viewModel = bottomBarViewModel)
+                        HistoryScreen(viewModel = historyViewModel)
                     }
                     3 -> {
                         // Replace with your Settings screen content
@@ -275,8 +277,8 @@ fun ChatContentAfterStart(viewModel: ChatViewModel) {
                 }
             }
 
-            items(chatMessages) { (sender, message) ->
-                val isUser = sender == "User"
+            items(chatMessages) { chatMessage ->
+                val isUser = chatMessage.sender == "User"
                 val backgroundColor = if (isUser) Color(0xFFDCF8C6) else Color(0xFFEAEAEA)
                 val textColor = if (isUser) Color.Black else Color.DarkGray
 
@@ -296,7 +298,7 @@ fun ChatContentAfterStart(viewModel: ChatViewModel) {
                             .widthIn(max = 250.dp)
                     ) {
                         Text(
-                            text = message,
+                            text = chatMessage.content,
                             fontSize = 16.sp,
                             color = textColor,
                             textAlign = TextAlign.Start
@@ -315,6 +317,7 @@ fun ChatContentAfterStart(viewModel: ChatViewModel) {
             }
         }
 
+        // Chat input field
         ChatInputField(
             viewModel = viewModel,
             isChatInputEmpty = chatInput.isBlank(),
@@ -326,6 +329,7 @@ fun ChatContentAfterStart(viewModel: ChatViewModel) {
         )
     }
 }
+
 
 
 
@@ -362,7 +366,7 @@ fun ChatInputField(viewModel: ChatViewModel, isChatInputEmpty: Boolean, modifier
 
         IconButton(
             onClick = {
-                viewModel.sendMessage()
+                viewModel.sendMessage()  // This will store the message in Firestore
             },
             modifier = Modifier
                 .size(56.dp)

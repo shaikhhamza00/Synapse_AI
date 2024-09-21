@@ -53,7 +53,6 @@ fun CustomTopBar(viewModel: BottomBarViewModel) {
                 painter = painterResource(id = R.drawable.synapse_logo),
                 contentDescription = "Logo",
                 modifier = Modifier
-                    .background(Color.Red)
                     .size(40.dp)
                     .padding(end = 16.dp),
                 tint = colorResource(id = R.color.teal_green) // Keep the logo with the same color
