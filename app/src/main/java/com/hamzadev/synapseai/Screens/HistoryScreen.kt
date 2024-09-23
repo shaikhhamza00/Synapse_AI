@@ -5,6 +5,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -77,8 +79,9 @@ fun HistoryScreen(viewModel: HistoryViewModel = viewModel()) {
 fun HistoryItem(content: String, timestamp: String, onClick: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = Color.LightGray
+            containerColor = MaterialTheme.colors.background
         ),
+        border = CardDefaults.outlinedCardBorder(true),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.elevatedCardElevation(4.dp),
         modifier = Modifier
@@ -87,24 +90,25 @@ fun HistoryItem(content: String, timestamp: String, onClick: () -> Unit) {
             .clickable { onClick() }
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.chat_history), // Replace with your history icon
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.onBackground,
-                    modifier = Modifier.size(24.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = content,
                     style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.onSurface
+                    color = MaterialTheme.colors.onSurface,
+                    modifier = Modifier.weight(1f)
                 )
+                Image(
+                    painter = painterResource(id = R.drawable.next_arrow),
+                    contentDescription = "History Detail Icon",
+                    modifier = Modifier.size(24.dp)
+                )
+
             }
+
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = timestamp,
@@ -114,9 +118,7 @@ fun HistoryItem(content: String, timestamp: String, onClick: () -> Unit) {
     }
 }
 
-/**
- * Utility function to format the timestamp.
- */
+
 fun formatTimestamp(timestamp: Long): String {
     val date = Date(timestamp)
     val format = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault()) // Customize the date pattern as needed

@@ -41,12 +41,11 @@ fun BottomNavBar(viewModel: BottomBarViewModel = viewModel()) {
             .padding(bottom = 30.dp) // Padding from bottom to avoid overlapping with system buttons
             .clip(RoundedCornerShape(16.dp)) // Rounded corners for bottom bar
     ) {
-        val items = listOf("Chat", "AI Assistants", "History", "Settings")
+        val items = listOf("Chat", "AI Assistants", "History")
         val icons = listOf(
             R.drawable.chat_icon,
             R.drawable.ai_assistant,
             R.drawable.chat_history,
-            R.drawable.settings_iocn
         )
 
         items.forEachIndexed { index, item ->

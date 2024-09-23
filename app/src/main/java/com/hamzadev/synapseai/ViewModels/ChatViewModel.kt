@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.hamzadev.synapseai.model.ChatMessage
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.Locale
@@ -32,12 +33,13 @@ import java.util.UUID
 
 class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private val db = FirebaseFirestore.getInstance()
-    private val chatCollectionRef = db.collection("chats")  // Firestore collection for chats
+    private val chatCollectionRef = db.collection("chats")
 
     private val _welcomeMessage = MutableLiveData("Welcome to Synapse AI 👋")
     val welcomeMessage: LiveData<String> get() = _welcomeMessage
 
     var isChatStarted by mutableStateOf(false)
+
 
     private val _chatMessages = MutableLiveData<List<ChatMessage>>()
     val chatMessages: LiveData<List<ChatMessage>> get() = _chatMessages
@@ -46,14 +48,13 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     private var conversationId: String = UUID.randomUUID().toString() // Generate a new conversation ID
 
     init {
-        // Fetch existing chat messages from Firebase
         fetchChatMessagesFromFirebase()
     }
 
     fun startChat() {
         isChatStarted = true
         _chatMessages.value = listOf()
-        conversationId = UUID.randomUUID().toString() // Reset conversation ID for a new chat
+        conversationId = UUID.randomUUID().toString()
     }
 
     fun onChatInputChanged(newInput: String) {
@@ -66,14 +67,12 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             chatInput = ""
             val chatMessage = ChatMessage(sender = "User", content = userMessage, isVoiceNote = false, conversationId = conversationId)
 
-            // Add user message to the local list and Firebase
             addMessageToFirestore(chatMessage)
 
             viewModelScope.launch {
                 val responseText = generateResponseFromGemini(userMessage)
                 val aiMessage = ChatMessage(sender = "AI", content = responseText.toString(), isVoiceNote = false, conversationId = conversationId)
 
-                // Add AI response to the local list and Firebase
                 addMessageToFirestore(aiMessage)
             }
         }
@@ -91,7 +90,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun fetchChatMessagesFromFirebase() {
-        chatCollectionRef.whereEqualTo("conversationId", conversationId) // Filter messages by conversationId
+        chatCollectionRef.whereEqualTo("conversationId", conversationId)
             .orderBy("timestamp", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { result ->
@@ -111,7 +110,6 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
             val response = generativeModel.generateContent(userMessage)
             Log.d("ChatViewModel", "API Response: ${response.text}")
 
-            // Process the response to apply the formatting for headings and bold text
             formatResponseText(response.text ?: "Sorry, I didn't get that.")
         } catch (e: Exception) {
             Log.e("ChatViewModel", "API Error: ${e.message}")
@@ -157,10 +155,3 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 }
 
 
-data class ChatMessage(
-    val sender: String = "",
-    val content: String = "",
-    val timestamp: Long = System.currentTimeMillis(),
-    val isVoiceNote: Boolean = false,
-    val conversationId: String = "" // New field
-)

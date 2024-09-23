@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
+import com.hamzadev.synapseai.model.ChatMessage
 
 class HistoryViewModel(application: Application) : AndroidViewModel(application) {
 

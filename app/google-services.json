@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "532716987758",
+    "project_id": "synapse-ai-9d03b",
+    "storage_bucket": "synapse-ai-9d03b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532716987758:android:cd889c2fee041c95920d7f",
+        "android_client_info": {
+          "package_name": "com.hamzadev.synapseai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCioygpXZRmsY61YGP2RB91SrrxFfIKpsY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

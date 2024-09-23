@@ -18,6 +18,11 @@
         android:theme="@style/Theme.SynapseAI"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.AIAssistantsScreen"
+            android:exported="false"
+            android:label="@string/title_activity_aiassistants_screen"
+            android:theme="@style/Theme.SynapseAI" />
+        <activity
             android:name=".Screens.ChatDetailScreen"
             android:exported="false"
             android:label="@string/title_activity_chat_detail_screen"

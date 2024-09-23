@@ -31,12 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hamzadev.synapseai.Screens.ui.theme.SynapseAITheme
-import com.hamzadev.synapseai.ViewModels.ChatMessage
 import com.hamzadev.synapseai.ViewModels.HistoryViewModel
+import com.hamzadev.synapseai.model.ChatMessage
 
 @Composable
 fun ChatDetailScreen(conversationId: String, historyViewModel: HistoryViewModel = viewModel()) {
-    // Fetch messages for the selected conversation when the conversationId changes
     LaunchedEffect(conversationId) {
         historyViewModel.fetchMessagesByConversationId(conversationId)
     }
@@ -53,7 +52,6 @@ fun ChatDetailScreen(conversationId: String, historyViewModel: HistoryViewModel 
         }
     }
 
-    // If there are no messages, show a loading or empty state
     if (messages.isEmpty()) {
         Box(
             contentAlignment = Alignment.Center,

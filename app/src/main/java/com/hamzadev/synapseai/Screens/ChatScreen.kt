@@ -78,7 +78,6 @@ fun ChatScreen(
     historyViewModel: HistoryViewModel = viewModel(),
     bottomBarViewModel: BottomBarViewModel = viewModel()
 ) {
-    // Observe the selected tab index
     val selectedTab by bottomBarViewModel.selectedTab.observeAsState(0)
 
     Scaffold(
@@ -104,15 +103,11 @@ fun ChatScreen(
                     }
                     1 -> {
                         // Replace with your AI Assistants screen content
-//                        AIAssistantsScreen()
+                        AIAssistantsScreen()
                     }
                     2 -> {
                         // Navigate to HistoryScreen
                         HistoryScreen(viewModel = historyViewModel)
-                    }
-                    3 -> {
-                        // Replace with your Settings screen content
-//                        SettingsScreen()
                     }
                 }
             }

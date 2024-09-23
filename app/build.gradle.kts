@@ -20,7 +20,7 @@ android {
             useSupportLibrary = true
         }
         //Gemini
-        buildConfigField("String", "API_KEY", "\"AIzaSyCTLE6_1UHkShsBQbfg2x_ySuyIzjMqPEQ\"")
+        buildConfigField("String", "API_KEY", "\"YOUR_API_KEY\"")
     }
 
     buildTypes {
