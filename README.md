@@ -5,7 +5,7 @@ Synapse AI Chat App is a feature-rich Android application that leverages modern 
 ## Screenshots
 
 ### Splash Screen
-<img src="./screenshots/Splash%20Screen%20LM.jpg" alt="Splash Screen" width="800" />
+<img src="./screenshots/Splash%20Screen%20LM.jpg" alt="Splash Screen" width="80" />
 
 <img src="./screenshots/Splash%20Screen%20DM.jpg" alt="Splash Screen Dark Mode" width="800" />
 
