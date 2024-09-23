@@ -5,48 +5,47 @@ Synapse AI Chat App is a feature-rich Android application that leverages modern 
 ## Screenshots
 
 ### Splash Screen
-<img src="./screenshots/Splash%20Screen%20LM.jpg" alt="Splash Screen" width="250" />
-
-<img src="./screenshots/Splash%20Screen%20DM.jpg" alt="Splash Screen Dark Mode" width="250" />
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <img src="./screenshots/Splash%20Screen%20LM.jpg" alt="Splash Screen Light Mode" width="250" style="margin-right: 10px;" />
+    <img src="./screenshots/Splash%20Screen%20DM.jpg" alt="Splash Screen Dark Mode" width="250" />
+</div>
 
 ### Landing Screen
-<img src="./screenshots/Landing%20Screen%20LM.jpg" alt="Landing Screen" width="250" />
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <img src="./screenshots/Landing%20Screen%20LM.jpg" alt="Landing Screen Light Mode" width="250" style="margin-right: 10px;" />
+    <img src="./screenshots/Landing%20Screen%20DM.jpg" alt="Landing Screen Dark Mode" width="250" />
+</div>
 
-<img src="./screenshots/Landing%20Screen%20DM.jpg" alt="Landing Screen" width="250" />
-
-### Chat Inital Screen
-<img src="./screenshots/Before%20Chat%20Screen%20LM.jpg" alt="Chat Inital Screen" width="250" />
-
-<img src="./screenshots/Before%20Chat%20Screen%20DM.jpg" alt="Chat Inital Screen" width="250" />
+### Chat Initial Screen
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <img src="./screenshots/Before%20Chat%20Screen%20LM.jpg" alt="Chat Initial Screen Light Mode" width="250" style="margin-right: 10px;" />
+    <img src="./screenshots/Before%20Chat%20Screen%20DM.jpg" alt="Chat Initial Screen Dark Mode" width="250" />
+</div>
 
 ### Chat Screen
-<img src="./screenshots/Chat%20Screen%20LM.jpg" alt="Chat Screen" width="250" />
-
-<img src="./screenshots/Chat%20Screen%202%20LM.jpg" alt="Chat Screen" width="250" />
-
-<img src="./screenshots/Chat%20Screen%20DM.jpg" alt="Chat Screen" width="250" />
-
-<img src="./screenshots/Chat%20Screen%202%20DM.jpg" alt="Chat Screen" width="250" />
-
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <img src="./screenshots/Chat%20Screen%20LM.jpg" alt="Chat Screen Light Mode" width="250" style="margin-right: 10px; margin-bottom: 10px;" />
+    <img src="./screenshots/Chat%20Screen%202%20LM.jpg" alt="Chat Screen Light Mode 2" width="250" style="margin-right: 10px; margin-bottom: 10px;" />
+    <img src="./screenshots/Chat%20Screen%20DM.jpg" alt="Chat Screen Dark Mode" width="250" style="margin-right: 10px; margin-bottom: 10px;" />
+    <img src="./screenshots/Chat%20Screen%202%20DM.jpg" alt="Chat Screen Dark Mode 2" width="250" />
+</div>
 
 ### History Screen
-<img src="./screenshots/History%20Screen%20LM.jpg" alt="History Screen" width="250" />
-
-<img src="./screenshots/Chat%20History%20Screen%20LM.jpg" alt="History Screen" width="250" />
-
-<img src="./screenshots/History%20Screen%20DM.jpg" alt="History Screen" width="250" />
-
-<img src="./screenshots/Chat%20History%20Screen%20DM.jpg" alt="History Screen" width="250" />
-
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <img src="./screenshots/History%20Screen%20LM.jpg" alt="History Screen Light Mode" width="250" style="margin-right: 10px; margin-bottom: 10px;" />
+    <img src="./screenshots/Chat%20History%20Screen%20LM.jpg" alt="History Screen Light Mode 2" width="250" style="margin-right: 10px; margin-bottom: 10px;" />
+    <img src="./screenshots/History%20Screen%20DM.jpg" alt="History Screen Dark Mode" width="250" style="margin-right: 10px; margin-bottom: 10px;" />
+    <img src="./screenshots/Chat%20History%20Screen%20DM.jpg" alt="History Screen Dark Mode 2" width="250" />
+</div>
 
 ### AI Assistants Screen
-<img src="./screenshots/Assistant%20Screen%20LM.jpg" alt="AI Assistants Screen" width="250" />
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+    <img src="./screenshots/Assistant%20Screen%20LM.jpg" alt="AI Assistants Screen Light Mode" width="250" style="margin-right: 10px; margin-bottom: 10px;" />
+    <img src="./screenshots/Assistant%202%20Screen%20LM.jpg" alt="AI Assistants Screen Light Mode 2" width="250" style="margin-right: 10px; margin-bottom: 10px;" />
+    <img src="./screenshots/Assistant%20Screen%20DM.jpg" alt="AI Assistants Screen Dark Mode" width="250" style="margin-right: 10px; margin-bottom: 10px;" />
+    <img src="./screenshots/Assistant%202%20Screen%20DM.jpg" alt="AI Assistants Screen Dark Mode 2" width="250" />
+</div>
 
-<img src="./screenshots/Assistant%202%20Screen%20LM.jpg" alt="AI Assistants Screen" width="250" />
-
-<img src="./screenshots/Assistant%20Screen%20DM.jpg" alt="AI Assistants Screen" width="250" />
-
-<img src="./screenshots/Assistant%202%20Screen%20DM.jpg" alt="AI Assistants Screen" width="250" />
 
 ## Features
 
