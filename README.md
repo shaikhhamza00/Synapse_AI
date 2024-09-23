@@ -4,22 +4,49 @@ Synapse AI Chat App is a feature-rich Android application that leverages modern 
 
 ## Screenshots
 
-<!-- Add your screenshots here -->
-
 ### Splash Screen
-![Splash Screen](./screenshots/Splash%20Screen%20LM.jpg)
+<img src="./screenshots/Splash%20Screen%20LM.jpg" alt="Splash Screen" width="800" />
+
+<img src="./screenshots/Splash%20Screen%20DM.jpg" alt="Splash Screen Dark Mode" width="800" />
 
 ### Landing Screen
-![Landing Screen](path_to_screenshot_landing_screen)
+<img src="./screenshots/Landing%20Screen%20LM.jpg" alt="Landing Screen" width="800" />
+
+<img src="./screenshots/Landing%20Screen%20DM.jpg" alt="Landing Screen" width="800" />
+
+### Chat Inital Screen
+<img src="./screenshots/Before%20Chat%20Screen%20LM.jpg" alt="Chat Inital Screen" width="800" />
+
+<img src="./screenshots/Before%20Chat%20Screen%20DM.jpg" alt="Chat Inital Screen" width="800" />
 
 ### Chat Screen
-![Chat Screen](path_to_screenshot_chat_screen)
+<img src="./screenshots/Chat%20Screen%20LM.jpg" alt="Chat Screen" width="800" />
+
+<img src="./screenshots/Chat%20Screen%202%20LM.jpg" alt="Chat Screen" width="800" />
+
+<img src="./screenshots/Chat%20Screen%20DM.jpg" alt="Chat Screen" width="800" />
+
+<img src="./screenshots/Chat%20Screen%202%20DM.jpg" alt="Chat Screen" width="800" />
+
 
 ### History Screen
-![History Screen](path_to_screenshot_history_screen)
+<img src="./screenshots/History%20Screen%20LM.jpg" alt="History Screen" width="800" />
+
+<img src="./screenshots/Chat%20History%20Screen%20LM.jpg" alt="History Screen" width="800" />
+
+<img src="./screenshots/History%20Screen%20DM.jpg" alt="History Screen" width="800" />
+
+<img src="./screenshots/Chat%20History%20Screen%20DM.jpg" alt="History Screen" width="800" />
+
 
 ### AI Assistants Screen
-![AI Assistants Screen](path_to_screenshot_ai_assistants_screen)
+<img src="./screenshots/Assistant%20Screen%20LM.jpg" alt="AI Assistants Screen" width="800" />
+
+<img src="./screenshots/Assistant%202%20Screen%20LM.jpg" alt="AI Assistants Screen" width="800" />
+
+<img src="./screenshots/Assistant%20Screen%20DM.jpg" alt="AI Assistants Screen" width="800" />
+
+<img src="./screenshots/Assistant%202%20Screen%20DM.jpg" alt="AI Assistants Screen" width="800" />
 
 ## Features
 
@@ -37,12 +64,11 @@ Synapse AI Chat App is a feature-rich Android application that leverages modern 
 - **Gemini API**: Provides AI chat capabilities.
 - **Jetpack Compose**: Modern UI toolkit for building native UI.
 - **Retrofit**: Used for making API calls to the Gemini API.
-- **Hilt**: Dependency injection framework to manage app components.
 - **Coroutines**: For managing background threads and asynchronous operations efficiently.
-- **Coil**: Image loading library used to fetch and display images.
-  
+
+
 ## Setup Instructions
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your_username/synapse-ai-chat-app.git
+   git clone https://github.com/shaikhhamza00/Synapse_AI.git
